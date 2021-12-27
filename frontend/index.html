@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div class="main">
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+              <img src='images/Picture2.svg' width='100%'>
+                <div class="signup-content">
+                    <div class="signup-form">
+                      
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register-form">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" placeholder="Your Name"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="username" placeholder="Your Email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="pass" id="password" placeholder="Password"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                            </div>
+                        </form>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" 
+                                value="Register"/>
+                            </div>
+                        
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
+                        <a href="login.html" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+        <!-- JS -->
+    <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/rollups/hmac-sha256.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/rollups/sha256.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/components/hmac.js"></script>
+    <script type="text/javascript" src="lib/CryptoJS/components/enc-base64.js"></script>
+    <script type="text/javascript" src="lib/url-template/url-template.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/sigV4Client.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/apiGatewayClient.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/simpleHttpClient.js"></script>
+    <script type="text/javascript" src="lib/apiGatewayCore/utils.js"></script>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+    <script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/aws-cognito-sdk.min.js"></script>
+<script src="https://rawgit.com/aws/amazon-cognito-identity-js/master/dist/amazon-cognito-identity.min.js"></script>
+<script type="text/javascript" src="apigClient.js"></script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+
+<script type="text/javascript">
+AWS.config.update({
+    region: 'us-east-1',
+    credentials: new AWS.CognitoIdentityCredentials({
+      IdentityPoolId: ''
+    })
+  });
+
+  AWSCognito.config.region = 'us-east-1';
+  AWSCognito.config.update({accessKeyId: 'null', secretAccessKey: 'null'});
+  var token = "";
+ 
+  //Authenticate user with MFA
+
+  document.getElementById("signup").addEventListener("click", function(){  
+    var authenticationData = {
+      Username : document.getElementById('username').value,
+      Password : document.getElementById('password').value,
+      };
+
+    // var showGetPut = document.getElementById('afterLogin');
+    var hideLogin = document.getElementById('login_wrb');
+
+    var authenticationDetails = new AWSCognito.CognitoIdentityServiceProvider.AuthenticationDetails(authenticationData);
+
+   // Replace with your user pool details
+
+    var poolData = { 
+        UserPoolId : 'us-east-1_LIQphep2C', 
+        ClientId : '7jq9rgrn5salsfrqq2snbjfsvp', 
+        Paranoia : 7
+    };
+
+    var userPool = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserPool(poolData);
+
+    // var userData = {
+    //     Username : document.getElementById('username').value,
+    //     Pool : userPool
+    // };
+
+    var attributeList = [];
+    // var dataName = {
+    //     Name : JSON.stringify("name"),
+    //     Value : document.getElementById('name').value // your email here
+    // };
+    var dataEmail = {
+      Name : "email",
+      Value : document.getElementById('username').value // your email here
+    };
+    // var attributeName = new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataName);
+    // console.log(document.getElementById('name').value);
+    // var attributeAddress =new AWS.CognitoIdentityServiceProvider.CognitoUserAttribute('address','Sunshine street 123');
+    var attributeEmail =new AWSCognito.CognitoIdentityServiceProvider.CognitoUserAttribute(dataEmail);
+    // attributeList.push(attributeName);
+    // attributeList.push(attributeAddress);
+    attributeList.push(attributeEmail);
+    var cognitoUser;
+    userPool.signUp(document.getElementById('username').value, document.getElementById('password').value, attributeList, null, function(err, result){
+        if (err) {
+            alert(err);
+            return;
+        }
+        cognitoUser = result.user;
+        console.log('user name is ' + cognitoUser.getUsername());
+        alert('A verification email has been send to the provided email address. Please check your mailbox.')
+    });
+
+//     var cognitoUser = new AWS.CognitoIdentityServiceProvider.CognitoUser(userData);
+
+//     cognitoUser.confirmRegistration('096146', true, function(err, result) {
+//     if (err) {
+//         console.log(err);
+//         return;
+//     }
+//     console.log('call result: ' + result);
+// });
+// <!-- 
+//     var cognitoUser = new AWSCognito.CognitoIdentityServiceProvider.CognitoUser(userData);
+//     cognitoUser.authenticateUser(authenticationDetails, {
+//       onSuccess: function (result) {
+//         token = result.getIdToken().getJwtToken(); // CUP Authorizer = ID Token
+//         console.log('ID Token: ' + result.getIdToken().getJwtToken()); // Show ID Token in the console
+//         var cognitoGetUser = userPool.getCurrentUser();
+//         if (cognitoGetUser != null) {
+//           cognitoGetUser.getSession(function(err, result) {
+//             if (result) {
+//               console.log ("User Successfuly Authenticated!");  
+//             }
+//           });
+//         }
+
+//         //Hide Login form after successful authentication
+//         // showGetPut.style.display = 'block';
+//         hideLogin.style.display = 'none';
+//       },
+//     onFailure: function(err) {
+//         alert(err);
+//     },
+//     mfaRequired: function(codeDeliveryDetails) {
+//             var verificationCode = prompt('Please input a verification code.' ,'');
+//             cognitoUser.sendMFACode(verificationCode, this);
+//         }
+//     }); -->
+    
+  });
+</script>
+    <!-- <script type="text/javascript" src="lib/axios/dist/axios.standalone.js"></script> -->
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

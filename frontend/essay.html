@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Automated Essay Scoring</title>
+    <!-- Add some CSS to change client UI -->
+    <link rel="stylesheet" href="css/essaystyle.css">
+    <style>
+    body {
+        background-color: whitesmoke;
+        }
+    label, button {
+        color: #1E6432;
+        font-family:"Rubik", Sans-serif;
+        font-size: 20px;
+        margin-left: 40px;
+        }
+     input {
+        color: #232F3E;
+        font-family:"Rubik", Sans-serif;
+        font-size: 20px;
+        margin-left: 20px;
+        }
+    </style>
+    <script src='js/script.js'></script>
+</head>
+<body onload="check()"> 
+
+      <img src="images/Picture2.svg" width='100%' > 
+  <div class="dropdown">
+  <button class="dropbtn"><b>Select Prompt to Start</b></button>
+  <div class="dropdown-content">
+    <button class="dropdown_button w3-theme-black" onclick="b1function('<p>Do you agree or disagree with the following statement? Coaches are the best teachers. Use specific reasons and examples to support your answer.</p>')"> Coaches are the best teachers</button>
+    <button class="dropdown_button" onclick="b1function('<p>Do you agree or disagree with the following statement? Universities should give the same amount of money to their students\' sports activities as they give to their university libraries. Use specific reasons and examples to support your opinion.</p>')"> Sports vs. Libraries</button>
+    <button class="dropdown_button" onclick="b1function('<p>Do you agree or disagree with the following statement? Television, newspapers, magazines, and other media pay too much attention to the personal lives of famous people such as public figures and celebrities. Use specific reasons and details to explain your opinion.</p>')"> Media's focus on personal lives</button>
+    <button class="dropdown_button" onclick="b1function('<p>People attend school for many different reasons (for example, expanded knowledge, societal awareness, and enhanced interpersonal relationships). Why do you think people decide to go to school? Use specific reasons and examples to support your answer.</p>')">Reasons to attend school</button>
+    <button class="dropdown_button" onclick="b1function('<p>Write about one of your favorite family traditions.Use specific reasons and examples to support your answer.</p>')">Favorite family traditions</button>
+    <button class="dropdown_button" onclick="b1function('<p>There are many skills that will help people be successful today. What is a very important skill a person should learn in order to be successful in the world today? Choose one skill and use specific reasons and examples to support your choice.</p>')">Skills to be succesful</button>
+    <button class="dropdown_button" onclick="b1function('<p>There are many types of entertainment today. Movies and television are very popular. How do movies or television influence people’s behavior? Use reasons and specific examples to support your answer.</p>')">Movies and television's influence</button>
+    <button class="dropdown_button" onclick="b1function('<p>Do you agree or disagree with the following statement? Important decisions should never be made alone. Use specific reasons and examples to support your answer.</p>')">Making decisions</button>
+    <button class="dropdown_button" onclick="b1function('<p>Do you agree or disagree with the following statement? Being self confident is the most important character trait that you can have.Use specific reasons for your answer.</p>')">Self confident</button>
+    <button class="dropdown_button" onclick="b1function('<p>Some say that physical exercise should be a required part of every school day. Others believe that students should spend the whole school day on academic studies. Which opinion do you agree with? Use specific reasons and details to support your answer.</p>')">Physical exsercise</button>
+    <button class="dropdown_button" onclick="b1function('<p>What do you consider to be the most important subject in school? Why is this subject more important to you than any other subject? Use specific reasons and examples to support your opinion.</p>')">Most important subject</button>
+    <button class="dropdown_button" onclick="b1function('<p>Some people prefer to plan activities for their free time very carefully. Others choose not to make any plans at all for their free time. Think about the benefits of planning free-time activities vs the benefits of not making plans. Which do you prefer planning or not planning your leisure time? Use specific reasons and examples to explain your choice.</p>')">Planning vs. Not planning</button>
+    <button class="dropdown_button" onclick="b1function('<p>Write about your favorite vacation spot.Describe it and write about why you like it so much.</p>')">Favorite vacation spot</button>
+    <button class="dropdown_button" onclick="b1function('<p>Write about the role of technology in today\'s world. Compare and contrast the advantages and the disadvantages.</p>')">Role of technology</button>
+
+  </div>
+</div>
+<button class="logoutbtn" style="float: right;" onclick="userLogout()"><b> Log Out </b></button>
+<button class="logoutbtn" style="float: right;" onclick="gethistory()"><b> History </b></button>
+  <center>
+        <fieldset class='body-summary' style="width:120px">
+            <legend><b>Prompt</b></legend> 
+        <table>
+        <tr>        
+        <div class='myprompt'>
+          <text id='prompt'><p>Do you agree or disagree with the following statement? Coaches are the best teachers. Use specific reasons and examples to support your answer.</p></text>
+        </div>
+        </tr>
+        </table>
+        </fieldset>
+         <br>
+         <br>
+         <br>
+         <fieldset class='body-summary' style="width:120px">
+            <legend><b>Essay</b></legend> 
+        <table>
+          <tr>
+         <div class='myessay'>
+        <textarea id="essay" name="essay" rows="20" cols="69">
+        </textarea>
+        </div>
+        </tr>
+        </table>
+        </fieldset>
+         <br>
+        <!-- set button onClick method to call function we defined passing input values as parameters -->
+    <form>
+        <button type="button" onclick="callAPI(document.getElementById('prompt').innerHTML,document.getElementById('essay').value)">Submit</button>
+    </form>
+    <br>
+    <br>
+    </center>
+
+    <script>
+    if (localStorage.getItem("promptContent") != null) {
+        document.getElementById('prompt').innerHTML  = localStorage.getItem("promptContent");
+      }
+    </script>
+  
+</body>
+</html>

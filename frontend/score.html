@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+    <style>
+   body {
+    background-color : #001126;
+   }
+   @keyframes    firework-animation {
+    0% {background-color : #ff8426;}
+    25% {background-color : #fffc84;}
+    50% {background-color : #ff83f4;}
+    75% {background-color : #83b6ff;}
+    100% {background-color : #ff8426;}
+}
+@-webkit-keyframes firework-animation {
+    0% {background-color : #ff8426;}
+    25% {background-color : #fffc84;}
+    50% {background-color : #ff83f4;}
+    75% {background-color : #83b6ff;}
+    100% {background-color : #ff8426;}
+}
+.fireWorkParticle {
+    z-index : 999;
+    position: absolute;
+    height : 5px;
+    width : 5px;
+    border-radius : 5px;
+    animation-name : firework-animation;
+    animation-timing-function : linear;
+    animation-duration : 1s;
+    animation-iteration-count : infinite;
+}
+@keyframes    firework-seed-animation {
+   0% {background-color : #ff8426;}
+   25% {background-color : #fffc84;}
+   100% {background-color : #ff8426;}
+}
+@-webkit-keyframes firework-seed-animation {
+   0% {background-color : #ff8426;}
+   25% {background-color : #fffc84;}
+   100% {background-color : #ff8426;}
+}
+.fireWorkSeed {
+   z-index : 999;
+   position: absolute;
+   height : 5px;
+   width : 5px;
+   border-radius : 5px;
+   animation-name : firework-seed-animation;
+   animation-timing-function : linear;
+   animation-duration : 0.5s;
+   animation-iteration-count : infinite;
+}
+  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="css/scoring_style.css">
+    <!-- <script src='js/scoring_script.js'></script> -->
+
+</head>
+<body onload="check()">
+    <div class="main">
+        <!-- Sing in  Form -->
+        <section class="sign-in">
+          <div class="container">
+              <img src='images/Picture2.svg' width='100%'>
+
+              <div class='body-score'>
+                <div>
+                  <br><br><br>
+                  <br><br><br>
+                <div class="rating" id="delivery_cir">12.5</div>
+                <div class='score-label' id='full-score'><b>Full Score: 12.5</b></div>
+                <br><br><br>
+                </div>
+                
+                <!-- <div>
+                  <br><br><br>
+                <div class="rating" id="grammar_cir">23</div>
+                <div class='score-label'><b>Grammar: 23</b></div>
+                </div> -->
+                <!-- <div>
+                  <br><br><br>
+                <div class="rating" id="structure_cir">90</div>
+                <div class='score-label'><b>Structure: 90</b></div>
+                </div> -->
+                
+                <div>
+                  <fieldset class='body-summary center'>
+                  <legend><b>Essay Summary</b></legend> 
+              <table style="padding:100px">
+                    <tr><font color="#1E6432"><b>Prompt: </b></font></tr><br>
+                      <tr> <p id='promptArea'>Do you agree or disagree with the following statement? Coaches are the best teachers. Use specific reasons and examples to support your answer.</p></tr><br> <br>
+                    <tr><font color="#1E6432"><b>Essay: </b></font></tr><br>
+                      <tr>
+                        <textarea disabled cols="80" rows="5" id="essayArea">
+                There are many skills that will help people be successful today. What is a very important skill a person should learn in order to be successful in the world today? Choose one skill and use specific reasons and examples to support your choice.
+              </textarea>
+                        </tr><br>
+                    <tr><p>
+                      <a href="./essay.html" title="Website name">Give it another try</a>
+                      <a href="login.html" >Log out</a>
+                      
+                    <i class="fa fa-history"></i>&nbsp<a href="./history.html" title="Website name">history</a>
+                    
+                    </p></tr>
+                    
+                    <tr><font color="#1E6432"><p id="beatRate"><b>You beat 80% of the users!!!!!</b></p></font></tr>
+              </table>
+
+              
+              </fieldset>
+                </div>
+              </div>
+               
+                
+                <!-- <label class='score-label'><b>Delivery: 58</b></label>
+                <label><b>Grammar: 23</b></label>
+                <label><b>Structure: 90</b></label> -->
+              </div>
+              
+
+            </div>
+        </section>
+
+    </div>
+    <div class = "fireWorkParticle"></div>
+    <div id = "board"></div>
+    <!-- JS -->
+    <script>
+    document.getElementById('promptArea').innerHTML= localStorage.getItem("promptContent");
+    console.log(localStorage.getItem("beatRate"));
+    document.getElementById('beatRate').innerHTML= "<b>You beat "+ localStorage.getItem("beatRate") +"% of the users!!!!!</b>";
+    console.log(localStorage.getItem("promptContent"))
+    document.getElementById('essayArea').value = localStorage.getItem("essayContent");
+    document.getElementById('delivery_cir').innerHTML = localStorage.getItem("score");
+    // document.getElementById('full-score').innerHTML = '<b>Full Score: ' + localStorage.getItem("score") +'</b>';
+    </script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/scoring_script.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        particles = [];
+  const fwkPtcIniV = 0.5;
+  const fwkPtcIniT = 4000;
+  const a = 0.0005;
+  const g = 0.0003;
+  var before = Date.now();
+  var id = setInterval(frame, 5);
+  seeds = [];
+  const cursorXOffset = 5;
+  const cursorYOffset = 0;
+  const v = 0.3;
+  var brd = document.createElement("DIV");
+  document.body.insertBefore(brd, document.getElementById("board"));
+  document.addEventListener("click", newFireWorkOnClick);
+  function newFireWorkOnClick(event)
+  {
+    newFireworkSeed(event.pageX - brd.offsetLeft + cursorXOffset, event.pageY - brd.offsetTop + cursorYOffset);
+  }
+  function newFireworkSeed(x, y)
+  {
+    var fwkSed = document.createElement("DIV");
+    fwkSed.setAttribute('class', 'fireWorkSeed');
+    brd.appendChild(fwkSed);
+    fwkSed.time = fwkPtcIniT;
+    fwkSed.velocity = [];
+    fwkSed.velocity.x = 0;
+    fwkSed.velocity.y = fwkPtcIniV;
+    fwkSed.position = [];
+    fwkSed.position.x = x;
+    fwkSed.position.y = y;
+    fwkSed.style.left = fwkSed.position.x + 'px';
+    fwkSed.style.top = fwkSed.position.y + 'px';
+    if(seeds == null)
+      seeds = [];
+    seeds.push(fwkSed);
+    return fwkSed;
+  }
+  function frame()
+  {
+    var current = Date.now();
+    var deltaTime = current - before;
+    before = current;
+    for(i in seeds)
+    {
+      var fwkSed = seeds[i];
+      fwkSed.time -= deltaTime;
+      if(fwkSed.time > 0)
+      {
+      fwkSed.velocity.x -= fwkSed.velocity.x * a * deltaTime;
+      fwkSed.velocity.y -= g * deltaTime + fwkSed.velocity.y * a * deltaTime;
+      fwkSed.position.x += fwkSed.velocity.x * deltaTime;
+      fwkSed.position.y -= fwkSed.velocity.y * deltaTime;
+      fwkSed.style.left = fwkSed.position.x + 'px';
+      fwkSed.style.top = fwkSed.position.y + 'px';
+      }
+      else
+      {
+      newFireWorkStar(fwkSed.position.x, fwkSed.position.y);
+      fwkSed.parentNode.removeChild(fwkSed);
+      seeds.splice(i, 1);
+      }
+    }
+    for(i in particles)
+    {
+      var fwkPtc = particles[i];
+      fwkPtc.time -= deltaTime;
+      if(fwkPtc.time > 0)
+      {
+      fwkPtc.velocity.x -= fwkPtc.velocity.x * a * deltaTime;
+      fwkPtc.velocity.y -= g * deltaTime + fwkPtc.velocity.y * a * deltaTime;
+      fwkPtc.position.x += fwkPtc.velocity.x * deltaTime;
+      fwkPtc.position.y -= fwkPtc.velocity.y * deltaTime;
+      fwkPtc.style.left = fwkPtc.position.x + 'px';
+      fwkPtc.style.top = fwkPtc.position.y + 'px';
+      }
+      else
+      {
+      fwkPtc.parentNode.removeChild(fwkPtc);
+      particles.splice(i, 1);
+      }
+    }
+  }
+  function newFireworkParticle(x, y, angle)
+  {
+    var fwkPtc = document.createElement("DIV");
+    fwkPtc.setAttribute('class', 'fireWorkParticle');
+    brd.appendChild(fwkPtc);
+    fwkPtc.time = fwkPtcIniT;
+    while(angle > 360)
+      angle -= 360;
+    while(angle < 0)
+      angle += 360;
+    fwkPtc.velocity = [];
+    if(angle > 270)
+    {
+      fwkPtc.velocity.x = fwkPtcIniV * Math.sin(angle * Math.PI / 180) * (1 - Math.random() * v);
+      fwkPtc.velocity.y = fwkPtcIniV * Math.cos(angle * Math.PI / 180) * (1 - Math.random() * v);
+    }
+    else if(angle > 180)
+    {
+      fwkPtc.velocity.x = fwkPtcIniV * Math.sin(angle * Math.PI / 180) * (1 - Math.random() * v);
+      fwkPtc.velocity.y = fwkPtcIniV * Math.cos(angle * Math.PI / 180) * (1 - Math.random() * v);
+    }
+    else if(angle > 90)
+    {
+      fwkPtc.velocity.x = fwkPtcIniV * Math.sin(angle * Math.PI / 180) * (1 - Math.random() * v);
+      fwkPtc.velocity.y = fwkPtcIniV * Math.cos(angle * Math.PI / 180) * (1 - Math.random() * v);
+    }
+    else
+    {
+      fwkPtc.velocity.x = fwkPtcIniV * Math.sin(angle * Math.PI / 180) * (1 - Math.random() * v);
+      fwkPtc.velocity.y = fwkPtcIniV * Math.cos(angle * Math.PI / 180) * (1 - Math.random() * v);
+    }
+    fwkPtc.position = [];
+    fwkPtc.position.x = x;
+    fwkPtc.position.y = y;
+    fwkPtc.style.left = fwkPtc.position.x + 'px';
+    fwkPtc.style.top = fwkPtc.position.y + 'px';
+    if(particles == null)
+      particles = [];
+    particles.push(fwkPtc);
+    return fwkPtc;
+  }
+
+  function newFireWorkStar(x, y, score)
+  {
+    if(score < 60) return;
+    var a = 0;
+    while(a < 360)
+    {
+      newFireworkParticle(x, y, a);
+      a += 5;
+    }
+  }
+  newFireWorkStar(200, 200, 90);
+  newFireWorkStar(600, 500, 90);
+  newFireWorkStar(1200, 300, 90);
+    </script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
